@@ -64,21 +64,21 @@
     <v-container>
         <v-row>
             <v-col md="3">
-                <v-card color="#E2D2DC">
+                <v-card color="#E2D2DC" >
                     <v-card-text> Gym has very positive atmosphere and trainers are very friendly and helpful! </v-card-text>
                     <v-rating :length="5" :size="32" :model-value="3" active-colour="primary" ></v-rating>
                 </v-card>
 
             </v-col>
             <v-col md="3">
-                <v-card color="#E2D2DC">
+                <v-card color="#E2D2DC" style="padding: 10px">
                     <v-card-text> Very clean and tidy and equipment is well organized </v-card-text>
                     <v-rating :length="5" :size="32" :model-value="4" active-colour="primary" ></v-rating>
                 </v-card>
 
             </v-col>
             <v-col md="3">
-                <v-card color="#E2D2DC">
+                <v-card color="#E2D2DC" >
                     <v-card-text> Membership is very affordable and worth the money. </v-card-text>
                     <v-rating :length="5" :size="32" :model-value="5" active-colour="primary" ></v-rating>
                 </v-card>
