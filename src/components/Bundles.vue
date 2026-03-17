@@ -1,37 +1,69 @@
 <script setup>
+import { ref } from 'vue'
+import { useRouter} from "vue-router";
+
+const router = useRouter();
+
+const showBundleDialog = ref(false)
+const isLoggedIn = localStorage.getItem("authToken")
+const selectedBundle = ref(null)
+const selectedPrice = ref(null)
+
+function showBundle(name,price){
+    if(isLoggedIn){
+        selectedBundle.value = name
+        selectedPrice.value = price
+        showBundleDialog.value = true 
+    }else{
+        router.push('/login')
+    }
+}
+function subscribe(){
+    const userDetails = JSON.parse(localStorage.getItem('user'))
+    userDetails.subscription = {
+        name: selectedBundle.value,
+        price: selectedPrice.value
+    }
+    localStorage.setItem('user', JSON.stringify(userDetails))
+    showBundleDialog.value = false
+}
+
 
 </script>
 
 <template>
     <v-container style="background-color:#E2D2DC" class="mt-12" >
         <v-row>
-            <div class="text-display-medium mb-12"> Bundles and Pricing</div>
+            <div class="text-display-medium mb-6"> Bundles and Pricing</div>
+        </v-row>
+        <v-row>
+            <div class="text-label-medium font-italic">Click on a  bundle to subscribe</div>
         </v-row>
         
         <v-row>
             <v-col md="3">
-                <v-card class="text-center" >
+                <v-card class="text-center" @click="showBundle('Daily Pass',500)">
                     <v-icon color="#5B4258" icon="mdi-sun-clock" size="large" class="mt-8"></v-icon>
                     <v-card-title color="#5B4258">Daily Pass</v-card-title>
                     <v-card-text>500 Ksh</v-card-text>
                 </v-card>
             </v-col>
             <v-col md="3">
-                <v-card class="text-center" >
+                <v-card class="text-center"  @click="showBundle('1 Month',4000)">
                     <v-icon color="#5B4258" icon="mdi-calendar-star-four-points" size="large" class="mt-8"></v-icon>
                     <v-card-title color="#5B4258">1 Month</v-card-title>
                     <v-card-text>4,000 Ksh</v-card-text>
                 </v-card>
             </v-col>
             <v-col md="3">
-                <v-card class="text-center" >
+                <v-card class="text-center"  @click="showBundle('3 Months',12000)" >
                     <v-icon color="#5B4258" icon="mdi-numeric-3-box-multiple-outline" size="large" class="mt-8"></v-icon>
                     <v-card-title color="#5B4258">3 Months</v-card-title>
                     <v-card-text>12,000 Ksh</v-card-text>
                 </v-card>
             </v-col>
             <v-col md="3">
-                <v-card class="text-center" >
+                <v-card class="text-center"  @click="showBundle('6 Months',24000)">
                     <v-icon color="#5B4258" icon="mdi-numeric-6-box-multiple-outline" size="large" class="mt-8"></v-icon>
                     <v-card-title color="#5B4258">6 Months</v-card-title>
                     <v-card-text>24,000 Ksh</v-card-text>
@@ -40,7 +72,7 @@
         </v-row>
         <v-row>
             <v-col md="12">
-                <v-card class="text-center" >
+                <v-card class="text-center"  @click="showBundle('12 Months',48000)">
                     <v-icon color="#5B4258" icon="mdi-dice-d12" size="large" class="mt-8"></v-icon>
                     <v-card-title color="#5B4258">12 Months</v-card-title>
                     <v-card-text>48,000 Ksh</v-card-text>
@@ -123,5 +155,21 @@
                 </v-list>
             </v-col>
         </v-row>
-    </v-container>
+    </v-container> 
+     <v-dialog v-model="showBundleDialog" max-width="600" >
+
+      <v-card prepend-icon="mdi-account" title="Subscribe to Bundle" >
+        <v-card-text>
+          You are about to subscribe to {{ selectedBundle }} at {{ selectedPrice }}. Click on the button below to complete payment
+        </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+         <v-spacer></v-spacer>
+          <v-btn text="Close" variant="plain" @click="showBundleDialog = false" ></v-btn>
+          <v-btn color="primary" variant="tonal" @click="subscribe()" >Subscribe</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 </template>
