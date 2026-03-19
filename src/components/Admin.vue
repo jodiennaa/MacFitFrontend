@@ -173,7 +173,7 @@ async function updateRole(){
     formData.append("noOfUsers", noOfUsers.value);
     
    try {
-      await api.post('updateRole/' + roleIdNo.value, formData,
+      await api.put('updateRole/' + roleIdNo.value, formData,
          { headers: { 'Authorization': `Bearer ${token}` } })
          .then(function (response) {
             error.value = ''
